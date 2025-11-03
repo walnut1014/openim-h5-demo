@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="mt-3 flex justify-between">
+      <!-- <div class="mt-3 flex justify-between">
         <div class="text-xs text-sub-text" @click="getCode(false)">
           {{ $t('forgetPasswordTitle') }}
         </div>
@@ -56,7 +56,7 @@
             `${isByPassword ? $t('buttons.verificationCodeLogin') : $t('buttons.passwordLogin')}`
           }}
         </div>
-      </div>
+      </div> -->
 
       <div class="mt-16">
         <van-button :loading="loading" :disabled="!(
@@ -69,9 +69,9 @@
 
         <div class="my-4 h-[1px] w-full bg-[#707070] opacity-10"></div>
 
-        <van-button @click="isByEmail = !isByEmail" block>
+        <!-- <van-button v-if="False" @click="isByEmail = !isByEmail" block>
           {{ isByEmail ? $t('buttons.phoneNumberLogin') : $t('buttons.emailLogin') }}
-        </van-button>
+        </van-button> -->
       </div>
     </van-form>
 
@@ -80,7 +80,7 @@
         <div class="text-sub-text">{{ $t('notHaveAccount') }}</div>
         <div @click="getCode(true)">{{ $t('nowRegister') }}</div>
       </div>
-      <div class="text-sub-text">{{ version }}</div>
+      <!-- <div class="text-sub-text">{{ version }}</div> -->
     </div>
 
     <van-popup v-model:show="showAreaCode" round position="bottom">

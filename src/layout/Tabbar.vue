@@ -1,6 +1,6 @@
 <template>
   <van-tabbar :border="false" fixed safe-area-inset-bottom placeholder route>
-    <van-tabbar-item
+    <!-- <van-tabbar-item
       to="/conversation"
       :badge="conversationStore.storeUnReadCount"
       :badge-props="{ max: 99, showZero: false }"
@@ -31,7 +31,7 @@
       <template #icon="props">
         <img :src="props.active ? profile_active : profile" />
       </template>
-    </van-tabbar-item>
+    </van-tabbar-item> -->
   </van-tabbar>
 </template>
 

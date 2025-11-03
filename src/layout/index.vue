@@ -9,7 +9,7 @@
         </transition>
       </router-view>
     </div>
-    <tabbar></tabbar>
+    <!-- <tabbar></tabbar> -->
     <van-overlay :show="showProgress" z-index="100">
       <div class="flex h-full w-full items-center justify-center">
         <van-loading size="24px" vertical>{{ `${userStore.progress}%` }}</van-loading>

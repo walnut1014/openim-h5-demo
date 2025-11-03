@@ -20,9 +20,9 @@
         </div>
       </div>
     </template>
-    <template #right>
+    <!-- <template #right>
       <img class="h-[23px] min-w-[23px]" :src="more" alt="" @click="toSetting" />
-    </template>
+    </template> -->
   </van-nav-bar>
 </template>
 

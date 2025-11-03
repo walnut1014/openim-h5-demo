@@ -76,11 +76,11 @@ const actionList = computed(() => {
       icon: image,
       type: ChatFooterActionType.Album,
     },
-    {
-      text: t('rtc.video'),
-      icon: call,
-      type: ChatFooterActionType.VideoCall,
-    },
+    // {
+    //   text: t('rtc.video'),
+    //   icon: call,
+    //   type: ChatFooterActionType.VideoCall,
+    // },
   ]
 })
 

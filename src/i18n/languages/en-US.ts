@@ -13,7 +13,7 @@ export const lang = {
   contact: 'Contacts',
   workbench: 'Workbench',
   profile: 'Mine',
-  welcome: 'Welcome to OpenCorp',
+  welcome: 'Welcome',
   emptySearchDesc: 'No search results',
   offlinePushTitle: 'You have a new message',
   offline: 'Offline',
