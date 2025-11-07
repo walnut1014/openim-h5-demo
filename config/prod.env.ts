@@ -1,7 +1,7 @@
 const BASE_DOMAIN = 'chat.haxiag.com'
 const CHAT_URL = `https://${BASE_DOMAIN}/chat`
 const API_URL = `http://${BASE_DOMAIN}/api`
-const WS_URL = `ws://${BASE_DOMAIN}/msg_gateway`
+const WS_URL = `wss://${BASE_DOMAIN}/msg_gateway`
 
 export default {
   NODE_ENV: 'production',
