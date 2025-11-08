@@ -7,11 +7,7 @@ export enum UsedFor {
 }
 
 export type SendSmsParams = {
-  phoneNumber?: string
-  email?: string
-  areaCode: string
-  usedFor: UsedFor
-  invitationCode?: string
+  mobileNumber?: string
 }
 
 export type DemoRegisterParams = {

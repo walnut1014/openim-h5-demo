@@ -1,6 +1,6 @@
-const BASE_DOMAIN = 'your-server-domain'
-const CHAT_URL = `http://${BASE_DOMAIN}/chat`
-const API_URL = `http://${BASE_DOMAIN}/api`
+const BASE_DOMAIN = 'chat.haxiag.com'
+const CHAT_URL = `https://${BASE_DOMAIN}/chat`
+const API_URL = `https://${BASE_DOMAIN}/api`
 const WS_URL = `ws://${BASE_DOMAIN}/msg_gateway`
 
 export default {

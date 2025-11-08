@@ -151,15 +151,10 @@ const onSubmit = () => {
     })
     return
   }
-  sendSms({
-    phoneNumber: formData.phoneNumber,
-    areaCode: formData.areaCode,
-    email: formData.email,
-    usedFor: UsedFor.Register,
-    invitationCode: formData.invitationCode,
-  }).then(() => {
+  sendSms({mobileNumber: formData.phoneNumber}).then(() => {
+    console.log('sendSms success')
     router.push({
-      path: 'verifyCode',
+      path: 'setBaseInfo',
       query: {
         baseData: JSON.stringify({
           ...formData,
@@ -168,8 +163,11 @@ const onSubmit = () => {
         }),
       },
     })
+  }).catch(
+    error => {
+      console.log(error); 
+      feedbackToast({ message: t('messageTip.sendCodeFailed'), error })
   })
-  // .catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
 }
 
 const onConfirmAreaCode = ({ selectedValues }: PickerConfirmEventParams) => {
@@ -179,15 +177,9 @@ const onConfirmAreaCode = ({ selectedValues }: PickerConfirmEventParams) => {
 
 const reSend = () => {
   if (count.value > 0) return
-  sendSms({
-    phoneNumber: formData.phoneNumber,
-    email: formData.email,
-    areaCode: formData.areaCode,
-    usedFor: UsedFor.Login,
-  }).then(startTimer)
+  sendSms({mobileNumber: formData.phoneNumber}).then(startTimer).catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
   // .catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
 }
-
 const startTimer = () => {
   if (timer) {
     clearInterval(timer)

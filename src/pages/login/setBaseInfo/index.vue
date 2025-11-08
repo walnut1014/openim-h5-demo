@@ -2,10 +2,10 @@
   <div class="page_container relative px-10">
     <img class="mt-[5vh] h-6 w-6" :src="login_back" alt="" @click="$router.back" />
 
-    <div class="mt-12 text-2xl font-semibold text-primary">{{ $t('setInfo') }}</div>
+    <div class="mt-12 text-2xl font-semibold text-primary">注册信息</div>
 
     <div class="mt-20">
-      <div class="mb-1 text-sm text-sub-text">{{ $t('name') }}</div>
+      <div class="mb-1 text-sm text-sub-text">短信验证码</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
           class="!py-1"
@@ -13,13 +13,13 @@
           v-model="baseInfo.nickname"
           name="nickname"
           type="text"
-          :placeholder="$t('placeholder.inputNickname')"
+          placeholder="请输入验证码"
         >
         </van-field>
       </div>
     </div>
 
-    <div class="mt-5">
+    <!-- <div class="mt-5">
       <div class="mb-1 text-sm text-sub-text">{{ $t('password') }}</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
@@ -45,6 +45,21 @@
           name="confirmPassword"
           type="password"
           :placeholder="$t('reConfirmPassword')"
+        >
+        </van-field>
+      </div>
+    </div> -->
+
+    <div class="mt-5">
+      <div class="mb-1 text-sm text-sub-text">WPK玩家ID</div>
+      <div class="rounded-lg border border-gap-text">
+        <van-field
+          class="!py-1"
+          clearable
+          v-model="baseInfo.wpkPlayerId"
+          name="confirmPassword"
+          type="password"
+          :placeholder="请输入WPK玩家ID"
         >
         </van-field>
       </div>
@@ -90,35 +105,16 @@ const baseInfo = reactive({
 })
 
 const login = async () => {
-  if (!passwordRegExp.test(baseInfo.password)) {
-    feedbackToast({
-      message: t('messageTip.correctPassword'),
-      error: t('messageTip.correctPassword'),
-    })
-    return
-  }
-  if (baseInfo.password !== baseInfo.confirmPassword) {
-    feedbackToast({
-      message: t('messageTip.rePassword'),
-      error: t('messageTip.rePassword'),
-    })
-    return
-  }
+  
   localStorage.setItem('IMAccount', props.baseData.phoneNumber)
   loading.value = true
   try {
     const {
       data: { userID },
     } = await register({
-      verifyCode: props.baseData.verificationCode,
-      deviceID: '',
-      user: {
-        ...baseInfo,
-        phoneNumber: props.baseData.phoneNumber,
-        areaCode: props.baseData.areaCode,
-        password: md5(baseInfo.password),
-        email: props.baseData.email,
-      },
+      mobileNumber: props.baseData.phoneNumber,
+      verificationCode: baseInfo.nickname,
+      gameId: baseInfo.wpkPlayerId,
     })
     setIMProfile({ userID })
     router.push('login')

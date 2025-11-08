@@ -1,4 +1,4 @@
-import request from '@utils/request'
+import request from '@utils/requestApi'
 import {
   ChangPasswordParams,
   DemoLoginParams,
@@ -13,7 +13,7 @@ let platform = 5
 
 // new
 export const sendSms = (params: SendSmsParams) =>
-  request.post('/account/code/send', JSON.stringify({ ...params }))
+  request.post('/register/send-code', JSON.stringify({ ...params }))
 
 // new
 export const verifyCode = (params: VerifyCodeParams) =>
