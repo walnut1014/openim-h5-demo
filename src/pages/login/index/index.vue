@@ -78,7 +78,7 @@
     <div class="mb-[32px] flex w-[300px] flex-col items-center text-xs">
       <div class="flex flex-row text-primary">
         <div class="text-sub-text">{{ $t('notHaveAccount') }}</div>
-        <div @click="getCode(true)">{{ $t('nowRegister') }}</div>
+        <div @click="getCode()">{{ $t('nowRegister') }}</div>
       </div>
       <!-- <div class="text-sub-text">{{ version }}</div> -->
     </div>
@@ -180,20 +180,14 @@ const startTimer = () => {
   }, 1000)
 }
 
-const getCode = (flag: boolean) => {
-  isRegiste.value = flag
-  if (flag) {
-    actions.value = [
-      { idx: 0, name: t('buttons.emailRegiste') },
-      { idx: 1, name: t('buttons.phoneNumberRegiste') },
-    ]
-  } else {
-    actions.value = [
-      { idx: 0, name: t('buttons.emailRetrieve') },
-      { idx: 1, name: t('buttons.phoneNumberRetrieve') },
-    ]
-  }
-  showActions.value = true
+const getCode = () => {
+  router.push({
+    path: 'getCode',
+    query: {
+      isRegiste: true + '',
+      isByEmail: false + '',
+    },
+  })
 }
 
 const onSelect = (item: { idx: number; name: string }) => {
