@@ -14,6 +14,40 @@ export default defineConfig({
     port: 3003,
     host: '0.0.0.0',
     hmr: true,
+    proxy: {
+      '/api': {
+        target: 'https://chat.haxiag.com',
+        changeOrigin: true,
+        secure: false,
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // 确保 Content-Type 正确转发
+            if (req.headers['content-type']) {
+              proxyReq.setHeader('Content-Type', req.headers['content-type'])
+            }
+          })
+        },
+      },
+      '/chat': {
+        target: 'https://chat.haxiag.com',
+        changeOrigin: true,
+        secure: false,
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // 确保 Content-Type 正确转发
+            if (req.headers['content-type']) {
+              proxyReq.setHeader('Content-Type', req.headers['content-type'])
+            }
+          })
+        },
+      },
+      '/msg_gateway': {
+        target: 'wss://chat.haxiag.com',
+        ws: true,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   define: {
     'process.env':

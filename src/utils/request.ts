@@ -12,6 +12,9 @@ type ErrorData = {
 const serves = axios.create({
   baseURL: getChatUrl(),
   timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
 
 serves.interceptors.request.use(
