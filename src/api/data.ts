@@ -8,24 +8,20 @@ export enum UsedFor {
 
 export type SendSmsParams = {
   mobileNumber?: string
+  phoneNumber?: string
+  areaCode?: string
+  email?: string
+  usedFor?: UsedFor
 }
 
 export type DemoRegisterParams = {
+  mobileNumber: string
+  verificationCode: string
+  nickname: string
+  password: string
   invitationCode?: string
-  verifyCode: string
-  deviceID: string
+  deviceID?: string
   autoLogin?: boolean
-  user: {
-    nickname: string
-    faceURL: string
-    birth: number
-    gender: number
-    email?: string
-    account?: string
-    areaCode: string
-    phoneNumber: string
-    password: string
-  }
 }
 
 export type VerifyCodeParams = {
@@ -51,8 +47,9 @@ export type ChangPasswordParams = {
 }
 
 export type DemoLoginParams = {
+  mobileNumber?: string
   phoneNumber?: string
-  areaCode: string
+  areaCode?: string
   password: string
   email?: string
   verifyCode?: string
