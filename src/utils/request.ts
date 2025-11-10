@@ -5,8 +5,10 @@ import { feedbackToast } from './common'
 import { ErrCodeMap } from '@/constants/errcode'
 
 type ErrorData = {
-  errCode: number
+  errCode?: number
   errMsg?: string
+  code?: number
+  message?: string
 }
 
 const serves = axios.create({
@@ -28,17 +30,25 @@ serves.interceptors.request.use(
 
 serves.interceptors.response.use(
   (res) => {
-    if (res.data.errCode !== 0) {
-      const errData = res.data as ErrorData
-      if (errData.errMsg) {
+    const data = res.data
+    // 支持两种响应格式：errCode 和 code
+    const isSuccess = (data.errCode !== undefined && data.errCode === 0) || 
+                      (data.code !== undefined && data.code === 200)
+    
+    if (!isSuccess) {
+      const errData = data as ErrorData
+      const errorMessage = errData.errMsg || errData.message || '请求失败'
+      const errorCode = errData.errCode || errData.code
+      
+      if (errorMessage) {
         feedbackToast({
-          message: ErrCodeMap[errData.errCode],
-          error: errData.errMsg,
+          message: errorCode !== undefined ? ErrCodeMap[errorCode] || errorMessage : errorMessage,
+          error: errorMessage,
         })
       }
-      return Promise.reject(res.data)
+      return Promise.reject(data)
     }
-    return res.data
+    return data
   },
   (err) => {
     if (err.message.includes('timeout')) {

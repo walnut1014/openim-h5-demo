@@ -1,4 +1,4 @@
-import request from '@utils/requestApi'
+import request from '@utils/request'
 import {
   ChangPasswordParams,
   DemoLoginParams,
@@ -13,11 +13,11 @@ let platform = 5
 
 // new
 export const sendSms = (params: SendSmsParams) =>
-  request.post('/register/send-code', JSON.stringify({ ...params }))
+  request.post('/account/code/send', JSON.stringify({ ...params }))
 
 // new
 export const sendSms4Forget = (params: SendSmsParams) =>
-  request.post('/auth/forget-password/send-code', JSON.stringify({ ...params }))
+  request.post('/account/code/send', JSON.stringify({ ...params }))
 
 // new
 export const verifyCode = (params: VerifyCodeParams) =>
@@ -32,9 +32,10 @@ export const verifyCode = (params: VerifyCodeParams) =>
 // new
 export const register = (params: DemoRegisterParams) => {
   return request.post(
-    '/register/mobile',
+    '/account/register',
     JSON.stringify({
-      ...params
+      ...params,
+      platform,
     }),
   )
 }
@@ -52,9 +53,12 @@ export const modify = (params: ModifyPasswordParams) =>
 // new
 export const login = (params: DemoLoginParams) => {
   return request.post(
-    '/auth/player/login',
+    '/account/login',
     JSON.stringify({
-      ...params
+      ...params,
+      deviceID: '',
+      platform: 5,
+      account: '',
     }),
   )
 }

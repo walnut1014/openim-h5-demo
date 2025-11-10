@@ -132,7 +132,7 @@ const onSubmit = () => {
   }
   if (!props.isRegiste) {
     router.push({
-      path: 'setPassword',
+      path: '/setPassword',
       query: {
         baseData: JSON.stringify({
           ...formData,
@@ -143,10 +143,10 @@ const onSubmit = () => {
     })
     return
   }
-  sendSms({mobileNumber: formData.phoneNumber}).then(() => {
-    console.log('sendSms success')
+  sendSms({mobileNumber: formData.phoneNumber}).then((res) => {
+    console.log('sendSms success', res)
     router.push({
-      path: 'setBaseInfo',
+      path: '/setBaseInfo',
       query: {
         baseData: JSON.stringify({
           ...formData,
@@ -157,7 +157,7 @@ const onSubmit = () => {
     })
   }).catch(
     error => {
-      console.log(error); 
+      console.log('sendSms error:', error); 
       feedbackToast({ message: t('messageTip.sendCodeFailed'), error })
   })
 }

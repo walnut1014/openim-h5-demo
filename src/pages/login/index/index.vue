@@ -132,17 +132,32 @@ const onSubmit = async () => {
   loading.value = true
   localStorage.setItem('IMAccount', formData.phoneNumber)
   try {
-    const {
-      data: { chatToken, imToken, userID },
-    } = await login({
+    const result = await login({
       mobileNumber: isByEmail.value ? '' : formData.phoneNumber,
       password: isByPassword.value ? formData.password: ''
     })
+    
+    console.log('登录响应:', result)
+    
+    // 兼容两种响应格式
+    const loginData = result.data || result
+    const { chatToken, imToken, userID } = loginData
+
+    console.log('Token 信息:', { chatToken, imToken, userID })
+    
+    if (!imToken || !userID) {
+      throw new Error('登录响应数据不完整，缺少必要的 imToken 或 userID')
+    }
 
     setIMProfile({ chatToken, imToken, userID })
-    router.push('/conversation')
+    
+    console.log('Token 已保存，准备跳转')
+    
+    // 直接跳转，让 layout 组件去初始化 IM SDK
+    router.replace('/conversation')
   } catch (error) {
-    // feedbackToast({ message: t('messageTip.loginFailed'), error })
+    console.error('登录失败:', error)
+    feedbackToast({ message: t('messageTip.loginFailed'), error })
   }
   loading.value = false
 }
@@ -179,7 +194,7 @@ const startTimer = () => {
 
 const getCode = (flag: boolean) => {
   router.push({
-    path: 'getCode',
+    path: '/getCode',
     query: {
       isRegiste: flag + '',
       isByEmail: false + '',
@@ -189,7 +204,7 @@ const getCode = (flag: boolean) => {
 
 const onSelect = (item: { idx: number; name: string }) => {
   router.push({
-    path: 'getCode',
+    path: '/getCode',
     query: {
       isRegiste: isRegiste.value + '',
       isByEmail: item.idx === 0 ? true + '' : false + '',

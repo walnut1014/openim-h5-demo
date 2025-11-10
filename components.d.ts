@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     SettingRowItem: typeof import('./src/components/SettingRowItem/index.vue')['default']
     VanActionSheet: typeof import('vant/es')['ActionSheet']
+    VanBadge: typeof import('vant/es')['Badge']
     VanButton: typeof import('vant/es')['Button']
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
@@ -29,5 +30,7 @@ declare module '@vue/runtime-core' {
     VanOverlay: typeof import('vant/es')['Overlay']
     VanPicker: typeof import('vant/es')['Picker']
     VanPopup: typeof import('vant/es')['Popup']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
+    VanSwipeCell: typeof import('vant/es')['SwipeCell']
   }
 }

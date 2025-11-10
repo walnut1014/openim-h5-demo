@@ -18,19 +18,20 @@ const loginCheck = async (
   next: NavigationGuardNext,
 ) => {
   try {
-    await IMSDK.getLoginStatus()
+    const { data: loginStatus } = await IMSDK.getLoginStatus()
+    console.log('IM SDK 登录状态:', loginStatus)
     next()
   } catch (error) {
+    console.log('IM SDK 未登录，检查 token')
     const IMToken = getIMToken()
     const IMUserID = getIMUserID()
     if (!IMToken || !IMUserID) {
-      next('login')
+      console.log('没有 token，跳转到登录页')
+      next('/login')
       return
     }
-    if (to.path !== '/conversation') {
-      next('conversation')
-      return
-    }
+    console.log('有 token，允许进入页面，等待 layout 初始化 SDK')
+    // 有 token 就放行，让 layout 组件去初始化 SDK
     next()
   }
 }
