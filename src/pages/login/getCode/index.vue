@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import type { PickerConfirmEventParams } from 'vant'
 import { BusinessAllowType, UsedFor } from '@/api/data'
-import { sendSms, verifyCode } from '@/api/login'
+import { sendSms, sendSms4Forget, verifyCode } from '@/api/login'
 import useUserStore from '@/store/modules/user'
 import countryCode from '@/utils/areaCode'
 import { feedbackToast } from '@/utils/common'
@@ -131,23 +131,15 @@ const onSubmit = () => {
     return
   }
   if (!props.isRegiste) {
-    verifyCode({
-      phoneNumber: formData.phoneNumber,
-      areaCode: formData.areaCode,
-      email: formData.email,
-      verifyCode: formData.verificationCode,
-      usedFor: UsedFor.Modify,
-    }).then(() => {
-      router.push({
-        path: 'setPassword',
-        query: {
-          baseData: JSON.stringify({
-            ...formData,
-            isRegiste: props.isRegiste,
-            isByEmail: props.isByEmail,
-          }),
-        },
-      })
+    router.push({
+      path: 'setPassword',
+      query: {
+        baseData: JSON.stringify({
+          ...formData,
+          isRegiste: props.isRegiste,
+          isByEmail: props.isByEmail,
+        }),
+      },
     })
     return
   }
@@ -177,7 +169,7 @@ const onConfirmAreaCode = ({ selectedValues }: PickerConfirmEventParams) => {
 
 const reSend = () => {
   if (count.value > 0) return
-  sendSms({mobileNumber: formData.phoneNumber}).then(startTimer).catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
+  sendSms4Forget({mobileNumber: formData.phoneNumber}).then(startTimer).catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
   // .catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
 }
 const startTimer = () => {

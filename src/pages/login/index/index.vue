@@ -47,16 +47,16 @@
         </div>
       </div>
 
-      <!-- <div class="mt-3 flex justify-between">
+      <div class="mt-3 flex justify-between">
         <div class="text-xs text-sub-text" @click="getCode(false)">
           {{ $t('forgetPasswordTitle') }}
         </div>
-        <div class="text-xs text-primary" @click="isByPassword = !isByPassword">
+        <!-- <div class="text-xs text-primary" @click="isByPassword = !isByPassword">
           {{
             `${isByPassword ? $t('buttons.verificationCodeLogin') : $t('buttons.passwordLogin')}`
           }}
-        </div>
-      </div> -->
+        </div> -->
+      </div>
 
       <div class="mt-16">
         <van-button :loading="loading" :disabled="!(
@@ -78,7 +78,7 @@
     <div class="mb-[32px] flex w-[300px] flex-col items-center text-xs">
       <div class="flex flex-row text-primary">
         <div class="text-sub-text">{{ $t('notHaveAccount') }}</div>
-        <div @click="getCode()">{{ $t('nowRegister') }}</div>
+        <div @click="getCode(true)">{{ $t('nowRegister') }}</div>
       </div>
       <!-- <div class="text-sub-text">{{ version }}</div> -->
     </div>
@@ -135,11 +135,8 @@ const onSubmit = async () => {
     const {
       data: { chatToken, imToken, userID },
     } = await login({
-      phoneNumber: isByEmail.value ? '' : formData.phoneNumber,
-      password: isByPassword.value ? md5(formData.password) : '',
-      areaCode: formData.areaCode,
-      verifyCode: formData.verificationCode,
-      email: formData.email,
+      mobileNumber: isByEmail.value ? '' : formData.phoneNumber,
+      password: isByPassword.value ? formData.password: ''
     })
 
     setIMProfile({ chatToken, imToken, userID })
@@ -180,11 +177,11 @@ const startTimer = () => {
   }, 1000)
 }
 
-const getCode = () => {
+const getCode = (flag: boolean) => {
   router.push({
     path: 'getCode',
     query: {
-      isRegiste: true + '',
+      isRegiste: flag + '',
       isByEmail: false + '',
     },
   })

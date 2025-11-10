@@ -29,7 +29,7 @@ serves.interceptors.request.use(
 serves.interceptors.response.use(
   (res) => {
     console.log('res.data', res.data.errCode);
-    if (res.data.errCode !== 0 && res.data.code !== 200) {
+    if (res.data.code !== 200) {
       const errData = res.data as ErrorData
       if (errData.errMsg) {
         feedbackToast({
