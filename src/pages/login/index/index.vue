@@ -109,14 +109,15 @@ const version = process.env.VERSION
 
 const { t } = useI18n()
 const router = useRouter()
+const route = useRoute()
 const showActions = ref(false)
 const isRegiste = ref(false)
 const actions = ref<{ idx: number; name: string }[]>([])
 
 const formData = reactive({
-  phoneNumber: localStorage.getItem('IMAccount') ?? '',
+  phoneNumber: (route.query.phoneNumber as string) || (localStorage.getItem('IMAccount') ?? ''),
   email: '',
-  areaCode: '+86',
+  areaCode: (route.query.areaCode as string) || '+86',
   password: '',
   verificationCode: '',
   accept: true,

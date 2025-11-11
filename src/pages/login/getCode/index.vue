@@ -160,7 +160,18 @@ const onSubmit = () => {
     })
   }).catch(
     error => {
-      console.log('sendSms error:', error); 
+      console.log('sendSms error:', error)
+      // 如果手机号已注册，携带手机号跳转到登录页面
+      if (error?.businessCode === 'MOBILE_ALREADY_REGISTERED') {
+        router.push({
+          path: '/login',
+          query: {
+            phoneNumber: formData.phoneNumber,
+            areaCode: formData.areaCode,
+          },
+        })
+        return
+      }
       feedbackToast({ message: t('messageTip.sendCodeFailed'), error })
   })
 }
