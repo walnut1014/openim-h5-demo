@@ -81,11 +81,9 @@ const onSubmit = () => {
     return
   }
   modify({
-    password: md5(password.value),
-    verifyCode: props.baseData.verificationCode,
-    areaCode: props.baseData.areaCode,
-    phoneNumber: props.baseData.phoneNumber,
-    email: props.baseData.email,
+    mobileNumber: props.baseData.phoneNumber,
+    verificationCode: props.baseData.verificationCode,
+    newPassword: password.value,
   }).then(() =>
     feedbackToast({
       message: t('messageTip.changePasswordSuccess'),

@@ -103,7 +103,7 @@ import { login, sendSms } from '@/api/login'
 import countryCode from '@/utils/areaCode'
 import { feedbackToast } from '@/utils/common'
 import { setIMProfile } from '@/utils/storage'
-import { UsedFor } from '@/api/data'
+import { UsedFor, CodeType } from '@/api/data'
 
 const version = process.env.VERSION
 
@@ -169,11 +169,10 @@ const onConfirmAreaCode = ({ selectedValues }: PickerConfirmEventParams) => {
 
 const reSend = () => {
   if (count.value > 0) return
+  // 登录场景使用注册验证码类型（根据业务需求调整）
   sendSms({
-    phoneNumber: formData.phoneNumber,
-    areaCode: formData.areaCode,
-    email: formData.email,
-    usedFor: UsedFor.Login,
+    mobileNumber: formData.phoneNumber,
+    codeType: CodeType.REGISTRATION,
   }).then(startTimer)
   // .catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
 }

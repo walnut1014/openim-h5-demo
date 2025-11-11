@@ -11,12 +11,8 @@ import { getChatToken } from '@/utils/storage'
 
 let platform = 5
 
-// new
+// new - 统一的验证码发送接口
 export const sendSms = (params: SendSmsParams) =>
-  request.post('/account/code/send', JSON.stringify({ ...params }))
-
-// new
-export const sendSms4Forget = (params: SendSmsParams) =>
   request.post('/account/code/send', JSON.stringify({ ...params }))
 
 // new
@@ -44,10 +40,7 @@ export const register = (params: DemoRegisterParams) => {
 export const modify = (params: ModifyPasswordParams) =>
   request.post(
     '/account/password/reset',
-    JSON.stringify({
-      ...params,
-      platform,
-    }),
+    JSON.stringify(params),
   )
 
 // new

@@ -6,12 +6,14 @@ export enum UsedFor {
   Login = 3,
 }
 
+export enum CodeType {
+  REGISTRATION = 'REGISTRATION',
+  PASSWORD_RESET = 'PASSWORD_RESET',
+}
+
 export type SendSmsParams = {
-  mobileNumber?: string
-  phoneNumber?: string
-  areaCode?: string
-  email?: string
-  usedFor?: UsedFor
+  mobileNumber: string
+  codeType: CodeType
 }
 
 export type DemoRegisterParams = {
@@ -33,11 +35,9 @@ export type VerifyCodeParams = {
 }
 
 export type ModifyPasswordParams = {
-  phoneNumber: string
-  areaCode: string
-  verifyCode: string
-  password: string
-  email?: string
+  mobileNumber: string
+  verificationCode: string
+  newPassword: string
 }
 
 export type ChangPasswordParams = {

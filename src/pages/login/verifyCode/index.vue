@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { UsedFor } from '@/api/data'
+import { UsedFor, CodeType } from '@/api/data'
 import { sendSms, verifyCode } from '@/api/login'
 import { feedbackToast } from '@/utils/common'
 import login_back from '@assets/images/login_back.png'
@@ -100,10 +100,8 @@ const startTimer = () => {
 const reSend = () => {
   if (count.value > 0) return
   sendSms({
-    phoneNumber: props.baseData.phoneNumber,
-    areaCode: props.baseData.areaCode,
-    email: props.baseData.email,
-    usedFor: props.baseData.isRegiste ? UsedFor.Register : UsedFor.Modify,
+    mobileNumber: props.baseData.phoneNumber,
+    codeType: props.baseData.isRegiste ? CodeType.REGISTRATION : CodeType.PASSWORD_RESET,
   }).then(startTimer)
   // .catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
 }
