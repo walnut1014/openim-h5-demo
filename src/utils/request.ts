@@ -40,17 +40,37 @@ serves.interceptors.response.use(
       const errorMessage = errData.errMsg || errData.message || '请求失败'
       const errorCode = errData.errCode || errData.code
       
-      if (errorMessage) {
-        feedbackToast({
-          message: errorCode !== undefined ? ErrCodeMap[errorCode] || errorMessage : errorMessage,
-          error: errorMessage,
-        })
-      }
+      // 优先使用后台返回的错误消息，如果没有则使用错误码映射
+      const displayMessage = errorMessage || (errorCode !== undefined ? ErrCodeMap[errorCode] : '请求失败')
+      
+      feedbackToast({
+        message: displayMessage,
+        error: displayMessage,
+      })
+      
       return Promise.reject(data)
     }
     return data
   },
   (err) => {
+    // 检查是否是 HTTP 错误响应
+    if (err.response && err.response.data) {
+      const data = err.response.data
+      
+      // 处理业务错误
+      const errorMessage = data.errMsg || data.message || '请求失败'
+      const errorCode = data.errCode || data.code
+      const displayMessage = errorMessage || (errorCode !== undefined ? ErrCodeMap[errorCode] : '请求失败')
+      
+      feedbackToast({
+        message: displayMessage,
+        error: displayMessage,
+      })
+      
+      return Promise.reject(data)
+    }
+    
+    // 处理网络错误等
     if (err.message.includes('timeout')) {
       console.log('timeout', err)
     }

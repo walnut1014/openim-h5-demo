@@ -172,7 +172,7 @@ const onSubmit = () => {
         })
         return
       }
-      feedbackToast({ message: t('messageTip.sendCodeFailed'), error })
+      // 错误消息已在 request 拦截器中处理，这里不需要重复显示
   })
 }
 
@@ -186,7 +186,10 @@ const reSend = () => {
   sendSms({
     mobileNumber: formData.phoneNumber,
     codeType: CodeType.PASSWORD_RESET
-  }).then(startTimer).catch(error => feedbackToast({ message: t('messageTip.sendCodeFailed'), error }))
+  }).then(startTimer).catch(error => {
+    // 错误消息已在 request 拦截器中处理，这里不需要重复显示
+    console.log('reSend error:', error)
+  })
 }
 const startTimer = () => {
   if (timer) {

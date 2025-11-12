@@ -47,12 +47,53 @@ type FeedbackToastParams = {
 
 export const feedbackToast = (config?: FeedbackToastParams) => {
   const { message, error, duration, onClose = () => {} } = config ?? {}
-  showToast({
-    message: message ?? t(error ? 'messageTip.nomalFailed' : 'messageTip.nomalSuccess'),
-    type: error ? 'fail' : 'success',
-    onClose,
-    duration,
-  })
+  
+  const displayMessage = message ?? t(error ? 'messageTip.nomalFailed' : 'messageTip.nomalSuccess')
+  
+  try {
+    showToast({
+      message: displayMessage,
+      type: error ? 'fail' : 'success',
+      onClose,
+      duration,
+    })
+  } catch (err) {
+    console.error('showToast failed:', err)
+    
+    // 如果 showToast 失败，使用备用方案
+    try {
+      if (typeof window !== 'undefined') {
+        // 创建一个简单的 toast 元素
+        const toast = document.createElement('div')
+        toast.textContent = displayMessage
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: ${error ? '#ff4444' : '#44ff44'};
+          color: white;
+          padding: 12px 24px;
+          border-radius: 8px;
+          z-index: 9999;
+          font-size: 14px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `
+        
+        document.body.appendChild(toast)
+        
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.remove()
+          }
+          onClose()
+        }, duration || 3000)
+      }
+    } catch (fallbackErr) {
+      console.error('Fallback toast also failed:', fallbackErr)
+    }
+  }
+  
   if (error) {
     console.error(message, error)
   }
