@@ -20,19 +20,40 @@
     </div>
 
     <div class="mt-5">
-      <div class="mb-1 text-sm text-sub-text">短信验证码</div>
+      <div class="mb-1 text-sm text-sub-text">手机号码</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
           class="!py-1"
           clearable
-          v-model="baseInfo.vcode"
-          name="vcode"
+          v-model="baseInfo.phoneNumber"
+          name="phoneNumber"
           type="text"
-          placeholder="请输入验证码"
+          placeholder="请输入手机号码"
         >
         </van-field>
       </div>
     </div>
+
+    <div class="mt-5">
+        <div class="mb-1 text-sm text-sub-text">{{ $t('reAcquireDesc') }}</div>
+        <div class="rounded-lg border border-gap-text">
+          <van-field
+            class="!py-1"
+            clearable
+            v-model="baseInfo.verificationCode"
+            name="verificationCode"
+            type="text"
+            :placeholder="$t('placeholder.inputVerificationCode')"
+          >
+            <template #button>
+              <span class="text-primary" @click="reSend" v-if="count <= 0">{{
+                $t('buttons.verificationCode')
+              }}</span>
+              <span class="text-primary" v-else>{{ count }}S</span>
+            </template>
+          </van-field>
+        </div>
+      </div>
 
     <div class="mt-5">
       <div class="mb-1 text-sm text-sub-text">{{ $t('password') }}</div>
@@ -86,6 +107,8 @@ import { register } from '@/api/login'
 import { setIMProfile } from '@/utils/storage'
 import { feedbackToast } from '@/utils/common'
 import { BaseData } from '../verifyCode/index.vue'
+import { sendSms } from '@/api/login'
+import { CodeType } from '@/api/data'
 
 const props = defineProps<{
   baseData: BaseData & { verificationCode: string }
@@ -100,11 +123,63 @@ const baseInfo = reactive({
   nickname: '',
   password: '',
   confirmPassword: '',
-  vcode: '',
+  phoneNumber: '',
+  verificationCode: '',
   birth: 0,
 })
 
+const count = ref(0)
+let timer: NodeJS.Timer
+
+const startTimer = () => {
+  if (timer) {
+    clearInterval(timer)
+  }
+  count.value = 60
+  timer = setInterval(() => {
+    if (count.value > 0) {
+      count.value -= 1
+    } else {
+      clearInterval(timer)
+    }
+  }, 1000)
+}
+
+const reSend = () => {
+  if (count.value > 0) return
+  if(!baseInfo.phoneNumber) {
+    feedbackToast({
+      message: t('messageTip.correctPhoneNumber'),
+      error: t('messageTip.correctPhoneNumber'),
+    })
+    return
+  }
+  sendSms({mobileNumber: baseInfo.phoneNumber, codeType: CodeType.REGISTRATION}).
+  then(startTimer).
+  catch(error => {
+    console.log('reSend error:', error)
+  })
+}
+
 const login = async () => {
+  if(!baseInfo.phoneNumber) {
+    feedbackToast({
+      message: t('messageTip.correctPhoneNumber'),
+      error: t('messageTip.correctPhoneNumber'),
+    })
+    return
+  }
+  if(!baseInfo.verificationCode) {
+    feedbackToast({message: "请输入验证码", error: "请输入验证码"})
+    return
+  }
+  if(!baseInfo.nickname) {
+    feedbackToast({
+      message: "请输入用户昵称",
+      error: t('请输入用户昵称'),
+    })
+    return
+  }
   if (!passwordRegExp.test(baseInfo.password)) {
     feedbackToast({
       message: t('messageTip.correctPassword'),
@@ -119,14 +194,14 @@ const login = async () => {
     })
     return
   }
-  localStorage.setItem('IMAccount', props.baseData.phoneNumber)
+  localStorage.setItem('IMAccount', baseInfo.phoneNumber)
   loading.value = true
   try {
     const {
       data: { userID },
     } = await register({
-      mobileNumber: props.baseData.phoneNumber,
-      verificationCode: baseInfo.vcode,
+      mobileNumber: baseInfo.phoneNumber,
+      verificationCode: baseInfo.verificationCode,
       nickname: baseInfo.nickname,
       password: baseInfo.password,
     })
@@ -135,7 +210,6 @@ const login = async () => {
   } catch (error) {
     loading.value = false
     console.log(error)
-    // feedbackToast({ error, message: t('messageTip.registerFailed') })
   }
 }
 </script>

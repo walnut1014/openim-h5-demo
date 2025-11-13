@@ -194,12 +194,21 @@ const startTimer = () => {
 
 const getCode = (flag: boolean) => {
   router.push({
-    path: '/getCode',
-    query: {
-      isRegiste: flag + '',
-      isByEmail: false + '',
-    },
-  })
+      path: '/setBaseInfo',
+      query: {
+        baseData: JSON.stringify({
+          isRegiste: true,
+          isByEmail: false,
+        }),
+      },
+    })
+  // router.push({
+  //   path: '/getCode',
+  //   query: {
+  //     isRegiste: flag + '',
+  //     isByEmail: false + '',
+  //   },
+  // })
 }
 
 const onSelect = (item: { idx: number; name: string }) => {

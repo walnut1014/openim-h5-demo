@@ -29,7 +29,7 @@ export default defineConfig({
         },
       },
       '/chat': {
-        target: 'http://localhost:8080',
+        target: 'https://chat.haxiag.com',
         changeOrigin: true,
         secure: false,
         configure: (proxy, options) => {
