@@ -67,7 +67,7 @@
           {{ $t('buttons.login') }}
         </van-button>
 
-        <div class="my-4 h-[1px] w-full bg-[#707070] opacity-10"></div>
+        <!-- <div class="my-4 h-[1px] w-full bg-[#707070] opacity-10"></div> -->
 
         <!-- <van-button v-if="False" @click="isByEmail = !isByEmail" block>
           {{ isByEmail ? $t('buttons.phoneNumberLogin') : $t('buttons.emailLogin') }}
@@ -76,7 +76,7 @@
     </van-form>
 
     <div class="mb-[32px] flex w-[300px] flex-col items-center text-xs">
-      <div class="flex flex-row text-primary">
+      <div class="flex flex-row text-primary register-button">
         <div class="text-sub-text">{{ $t('notHaveAccount') }}</div>
         <div @click="getCode(true)">{{ $t('nowRegister') }}</div>
       </div>
@@ -227,5 +227,9 @@ const onSelect = (item: { idx: number; name: string }) => {
   background: linear-gradient(180deg,
       rgba(0, 137, 255, 0.1) 0%,
       rgba(255, 255, 255, 0) 100%);
+}
+.register-button{
+  font-size: 16px;
+  margin-bottom: 50px;
 }
 </style>

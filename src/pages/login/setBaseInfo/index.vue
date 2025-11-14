@@ -2,9 +2,9 @@
   <div class="page_container relative px-10">
     <img class="mt-[5vh] h-6 w-6" :src="login_back" alt="" @click="$router.back" />
 
-    <div class="mt-12 text-2xl font-semibold text-primary">注册信息</div>
+    <div class="mt-8 text-2xl font-semibold text-primary">注册信息</div>
 
-    <div class="mt-20">
+    <div class="mt-8">
       <div class="mb-1 text-sm text-sub-text">用户昵称</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="mt-5">
+    <div class="mt-4">
       <div class="mb-1 text-sm text-sub-text">手机号码</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div class="mt-5">
+    <div class="mt-4">
         <div class="mb-1 text-sm text-sub-text">{{ $t('reAcquireDesc') }}</div>
         <div class="rounded-lg border border-gap-text">
           <van-field
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-    <div class="mt-5">
+    <div class="mt-4">
       <div class="mb-1 text-sm text-sub-text">{{ $t('password') }}</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
@@ -71,7 +71,7 @@
       <div class="mt-0.5 text-xs text-sub-text">{{ $t('passwordRequired') }}</div>
     </div>
 
-    <div class="mt-5">
+    <div class="mt-4">
       <div class="mb-1 text-sm text-sub-text">{{ $t('confirmPassword') }}</div>
       <div class="rounded-lg border border-gap-text">
         <van-field
@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <div class="mt-28">
+    <div class="mt-8">
       <van-button
         block
         type="primary"
